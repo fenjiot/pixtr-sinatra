@@ -5,42 +5,31 @@ require "sinatra/reloader" if development?
 #   require "sinatra/reloader"
 # end
 # END Alt way
-require "pg"
 
-database = PG.connect({ dbname: "photo_gallery" })
-# GALLERIES = {
-#   "cats" => ["colonel_meow.jpg", "grumpy_cat.png"],
-#   "dogs" => ["shibe.png"]
-# }
+require "active_record"
 
-# gem install sinatra-contrib <- to use sinatra/reloader development?
-# Handle an HTTP GET request to '/'
+ActiveRecord::Base.establish_connection(
+  adapter: "postgresql",
+  database: "photo_gallery"
+)
+
+# galleries table
+class Gallery < ActiveRecord::Base
+end
+
+# images table
+class Image < ActiveRecord::Base
+end
+
 get "/" do
-  galleries = database.exec_params("SELECT id, name FROM galleries")
-  @gallery_ids_names = galleries.map { |gallery| gallery }
+  @galleries = Gallery.all
   erb :home
 end
 
 get "/gallery/:id" do
   id = params[:id]
-  # Getting name from database
-  query_name = "SELECT name FROM galleries WHERE id = $1"
-  name_result = database.exec_params(query_name, [id])
-  @name = name_result.first["name"]
-
-  # Getting image urls from database 
-  query_images = "SELECT url FROM images WHERE gallery_id = $1"
-
-  images_result = database.exec_params(query_images, [id])
-  @images = images_result.map { |image| image["url"] }
-  puts images_result.inspect
-  puts @images.inspect
+  @gallery = Gallery.find(id)
+  @images = Image.where(gallery_id: id)
   erb :gallery
 end
-
-# get "/projects/:id" do
-#   @project_id = params["id"]
-#   # note: :id is also acceptable above. @project_id = params[:id]
-#   erb :project
-#end
 

@@ -1,5 +1,5 @@
-<h3>You're viewing the <%= @name %> gallery</h3>
-
-<% @images.each do |url| %>
-  <img src="<%= url %>">
+<h3>You're viewing the <%= @gallery.name %> gallery</h3>
+<h4><%= @gallery.description %></h4>
+<% @images.each do |image| %>
+  <img src="<%= image.url %>">
 <% end %>
