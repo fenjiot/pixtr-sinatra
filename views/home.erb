@@ -1,7 +1,7 @@
 <h3>Welcome to Pixtr</h3>
 <p>Galleries below</p>
 <ul>
-  <% @gallery_names.each do |name| %>
-  <li><a href="/gallery/<%= name %>"><%= name %></a></li>
+  <% @gallery_ids_names.each do |gallery| %>
+  <li><a href="/gallery/<%= gallery["id"] %>"><%= gallery["name"] %></a></li>
 <% end %>
 </ul>
