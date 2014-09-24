@@ -2,6 +2,6 @@
 <p>Galleries below</p>
 <ul>
   <% @galleries.each do |gallery| %>
-  <li><a href="/gallery/<%= gallery.id %>"><%= gallery.name %></a></li>
+  <li><a href="/galleries/<%= gallery.id %>"><%= gallery.name %></a></li>
 <% end %>
 </ul>
