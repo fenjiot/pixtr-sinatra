@@ -1,6 +1,16 @@
 <h3>You're viewing the <%= @gallery.name %> gallery</h3>
 <h4><%= @gallery.description %></h4>
 <a href="/galleries/<%= @gallery.id %>/edit">Edit gallery</a>
+
+<br />
+<br />
+<form action="/galleries/<%= @gallery.id %>" method="POST">
+  <input type="hidden" name="_method" value="DELETE" />
+  <input type="submit" value="Delete gallery" />
+</form>
+
+<br />
+<br />
 <ul>
   <% @images.each do |image| %>
     <li><img src="<%= image.url %>"></li>
