@@ -1,0 +1,25 @@
+<h3>Edit the <%= @gallery.name %> gallery</h3>
+
+<h4>Images in gallery</h4>
+<ul>
+  <% @images.each do |image| %>
+      <li><%= image.name %> </li>
+  <% end %>
+</ul>
+
+<form action="/galleries/<%= @gallery.id %>" method="POST">
+  <input type="hidden" name="_method" value="PATCH" />
+  <label for="gallery_name">Change gallery name</label>
+  <input id="gallery_name" type="text" name="gallery[name]" value="<%= @gallery.name %>" />
+
+  <br />
+  <br />
+
+  <div>
+    <input type="submit" value="Update <%= @gallery.name %>" />
+  </div>
+</form>
+
+<br />
+<br />
+
