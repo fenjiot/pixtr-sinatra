@@ -16,7 +16,7 @@ class Image < ActiveRecord::Base
 end
 
 get "/" do
-  @galleries = Gallery.all
+  @galleries = Gallery.all.order(name: :asc)
   erb :home
 end
 
