@@ -24,6 +24,10 @@ get "/galleries/new" do
   erb :new_gallery
 end
 
+post "/galleries" do
+
+end
+
 get "/galleries/:id" do
   id = params[:id]
   @gallery = Gallery.find(id)
