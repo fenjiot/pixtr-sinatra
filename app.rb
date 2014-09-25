@@ -9,6 +9,7 @@ ActiveRecord::Base.establish_connection(
 
 # galleries table
 class Gallery < ActiveRecord::Base
+  has_many :images
 end
 
 # images table
@@ -34,14 +35,16 @@ end
 get "/galleries/:id/edit" do
   id = params[:id]
   @gallery = Gallery.find(id)
-  @images = Image.where(gallery_id: id)
   erb :edit_gallery
 end
 
 patch "/galleries/:id" do
   id = params[:id]
   gallery = Gallery.find(id)
-  gallery.update(name: params[:gallery][:name], description: params[:gallery][:description])
+  gallery.update(
+    name: params[:gallery][:name], 
+    description: params[:gallery][:description]
+  )
   redirect(to("/galleries/#{id}"))
 end
 
@@ -59,3 +62,16 @@ get "/galleries/:id" do
   erb :galleries
 end
 
+get "/galleries/:id/images/new" do
+  @gallery = Gallery.find(params[:id])
+  erb :new_image
+end
+
+post "/galleries/:id/images" do
+  @gallery = Gallery.find(params[:id])
+  @gallery.images.create(
+    name: params[:gallery][:image][:name], 
+    url: params[:gallery][:image][:url]
+  )
+  redirect to "/galleries/#{@gallery.id}"
+end
